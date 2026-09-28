@@ -15,16 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar'),
-      builder: (context, child) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: child!,
-      ),
-      theme: ThemeData(
-        textTheme: GoogleFonts.cairoTextTheme(),
-      ),
+      builder: (context, child) =>
+          Directionality(textDirection: TextDirection.rtl, child: child!),
+      theme: ThemeData(textTheme: GoogleFonts.cairoTextTheme()),
       home: const Home(),
     );
   }
 }
-
-
