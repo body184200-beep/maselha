@@ -1,13 +1,5 @@
-import 'package:flutter/material.dart';
+class PlayerModel {
+  final String name;
 
-class TeamModel {
-  String name;
-  Color color;
-  List<String> players;
-
-  TeamModel({
-    required this.name,
-    required this.color,
-    required this.players,
-  });
+  const PlayerModel({required this.name});
 }

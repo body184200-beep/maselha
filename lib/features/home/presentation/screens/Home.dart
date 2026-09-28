@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
               children: [
                 SizedBox(height: 550),
                 AppButton(
-                  text: 'ابدأ اللعب  ',
+                  text: 'ابدأ اللعبة',
                   onPressed: () {
                     Navigator.push(
                       context,
