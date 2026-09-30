@@ -23,14 +23,17 @@ class _HomeState extends State<Home> {
           ),
           Center(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 550),
+                SizedBox(height: 300),
                 AppButton(
                   text: 'ابدأ اللعبة',
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => TeamcountScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => TeamcountScreen(),
+                      ),
                     );
                   },
                 ),
