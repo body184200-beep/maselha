@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/appColors.dart';
-import '../../../game_setup/data/models/team_model.dart';
+import '../../../../../core/theme/appColors.dart';
+import '../../../../game_setup/data/models/team_model.dart';
 
 class ReadyTeamPill extends StatelessWidget {
   final TeamModel team;

@@ -48,7 +48,14 @@ class TeamSetupController {
     teams[teamIndex].players.removeAt(playerIndex);
   }
 
-  void setColor(int teamIndex, Color color) => teams[teamIndex].color = color;
+  /// Colors stay unique: if another team already has [color], swap with it.
+  void setColor(int teamIndex, Color color) {
+    final team = teams[teamIndex];
+    for (final other in teams) {
+      if (other != team && other.color == color) other.color = team.color;
+    }
+    team.color = color;
+  }
 
   String? validate() {
     // 1. Sync names from controllers

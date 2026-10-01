@@ -1,35 +1,63 @@
 import 'package:flutter/material.dart';
 
 import '../../../game_setup/data/models/team_model.dart';
-import '../../data/models/category_model.dart';
-import '../../data/models/difficulty_model.dart';
-import '../../data/sources/game_data_source.dart';
+import '../screens/category_selection_screen.dart';
 import '../screens/ready_screen.dart';
 import '../screens/result_screen.dart';
+import 'game_config.dart';
 
 bool isFinalTurn(List<TeamModel> teams, int teamIndex, int round, int total) =>
     teamIndex == teams.length - 1 && round >= total;
 
-void goToResult(BuildContext context, List<TeamModel> teams) {
+void goToResult(BuildContext context, GameConfig config) {
   Navigator.pushReplacement(
     context,
-    MaterialPageRoute(builder: (_) => ResultScreen(teams: teams)),
+    MaterialPageRoute(builder: (_) => ResultScreen(config: config)),
+  );
+}
+
+/// Rematch: same teams (scores reset), same categories and difficulty.
+void goToRematch(BuildContext context, GameConfig config) {
+  final fresh = config.withFreshTeams();
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (_) => ReadyScreen(
+        teams: fresh.teams,
+        selectedCategories: fresh.categories,
+        difficulty: fresh.difficulty,
+        dataSource: fresh.dataSource,
+        totalRounds: fresh.totalRounds,
+      ),
+    ),
+        (route) => route.isFirst,
+  );
+}
+
+/// Same teams (scores reset), but categories and difficulty are chosen again.
+void goToChangeSettings(BuildContext context, GameConfig config) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (_) => CategorySelectionScreen(
+        teams: config.withFreshTeams().teams,
+        dataSource: config.dataSource,
+      ),
+    ),
+        (route) => route.isFirst,
   );
 }
 
 /// After time is up: next team/round -> ReadyScreen, or final -> ResultScreen.
 void goToNextTurn(
-    BuildContext context, {
-      required List<TeamModel> teams,
-      required List<CategoryModel> categories,
-      required DifficultyModel difficulty,
-      required GameDataSource dataSource,
+    BuildContext context,
+    GameConfig config, {
       required int teamIndex,
       required int round,
-      required int totalRounds,
     }) {
-  if (isFinalTurn(teams, teamIndex, round, totalRounds)) {
-    goToResult(context, teams);
+  final teams = config.teams;
+  if (isFinalTurn(teams, teamIndex, round, config.totalRounds)) {
+    goToResult(context, config);
     return;
   }
   final isLastTeam = teamIndex == teams.length - 1;
@@ -44,12 +72,12 @@ void goToNextTurn(
     MaterialPageRoute(
       builder: (_) => ReadyScreen(
         teams: teams,
-        selectedCategories: categories,
-        difficulty: difficulty,
-        dataSource: dataSource,
+        selectedCategories: config.categories,
+        difficulty: config.difficulty,
+        dataSource: config.dataSource,
         currentTeamIndex: nextTeamIndex,
         currentRound: nextRound,
-        totalRounds: totalRounds,
+        totalRounds: config.totalRounds,
       ),
     ),
   );

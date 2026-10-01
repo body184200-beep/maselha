@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/appColors.dart';
-import '../../../../core/widgets/appButton.dart';
-import '../../../game_setup/data/models/team_model.dart';
+import '../../../../../core/theme/appColors.dart';
+import '../../../../../core/widgets/appButton.dart';
+
+import '../../../../game_setup/data/models/team_model.dart';
 import 'ready_actor_badge.dart';
 import 'ready_illustration.dart';
 import 'ready_team_pill.dart';
@@ -28,7 +29,12 @@ class ReadyContent extends StatelessWidget {
       builder: (context, constraints) => SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: constraints.maxHeight - 24),
+          // Fill the full width too, so the column is centered on the
+          // screen instead of shrinking to its widest child.
+          constraints: BoxConstraints(
+            minWidth: constraints.maxWidth - 48,
+            minHeight: constraints.maxHeight - 24,
+          ),
           child: IntrinsicHeight(child: _buildColumn()),
         ),
       ),

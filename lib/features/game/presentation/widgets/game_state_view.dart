@@ -27,6 +27,12 @@ class GameStateView extends StatelessWidget {
       listenable: controller,
       builder: (_, __) => AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
+        // Expand to the full screen so a view never shrinks to its content
+        // and ends up stuck in a corner.
+        layoutBuilder: (current, previous) => Stack(
+          fit: StackFit.expand,
+          children: [...previous, if (current != null) current],
+        ),
         child: _view(),
       ),
     );

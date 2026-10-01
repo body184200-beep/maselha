@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/appColors.dart';
-import '../../../game_setup/data/models/team_model.dart';
+import '../../../../../core/theme/appColors.dart';
+import '../../../../game_setup/data/models/team_model.dart';
 
 /// Shows the acting player and how many times they acted (max 2).
 class ReadyActorBadge extends StatelessWidget {

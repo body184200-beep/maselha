@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/appColors.dart';
-import 'game_end_button.dart';
+import 'end_game_widgets/game_end_button.dart';
 
 /// Team pill, end button, and timer pill.
 class GameTopBar extends StatelessWidget {

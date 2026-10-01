@@ -32,11 +32,14 @@ class GameController extends ChangeNotifier {
   void onCorrect() {
     if (state != GameScreenState.playing || deck.isEmpty) return;
     team.score += 10;
+    timer.pause(); // the clock doesn't run while waiting on the result screen
     _setState(GameScreenState.correct);
   }
 
   void nextAfterCorrect() {
+    if (state != GameScreenState.correct) return;
     deck.next();
+    timer.resume();
     _setState(GameScreenState.playing);
   }
 
@@ -44,6 +47,13 @@ class GameController extends ChangeNotifier {
     if (state != GameScreenState.playing || deck.isEmpty) return;
     deck.next();
     notifyListeners();
+  }
+
+  /// Used while a dialog is open on top of the game.
+  void pause() => timer.pause();
+
+  void resume() {
+    if (state == GameScreenState.playing) timer.resume();
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/appColors.dart';
+import '../../../../../core/theme/appColors.dart';
 
 class ReadyIllustration extends StatelessWidget {
   final Color color;
