@@ -26,12 +26,16 @@ class GameActorBadge extends StatelessWidget {
             size: 16,
           ),
           const SizedBox(width: 6),
-          Text(
-            'الممثل: $actor',
-            style: GoogleFonts.cairo(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: AppColors.white,
+          Flexible(
+            child: Text(
+              'الممثل: $actor',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.cairo(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: AppColors.white,
+              ),
             ),
           ),
         ],

@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/network/api_client.dart';
@@ -12,20 +11,26 @@ class MaselhaApi {
 
   const MaselhaApi(this._client);
 
+  /// [{id, name, description}]
   Future<Either<Failure, dynamic>> categories() =>
       _client.get(ApiEndpoints.categories);
 
+  /// [{id, name, time_limit}]
   Future<Either<Failure, dynamic>> difficultyLevels() =>
       _client.get(ApiEndpoints.difficultyLevels);
 
-  /// [query] holds the filters (category / difficulty) once we know the
-  /// exact parameter names from the docs.
-  Future<Either<Failure, dynamic>> randomWord({Map<String, dynamic>? query}) =>
-      _client.get(ApiEndpoints.randomWord, query: query);
+  /// One random word: {id, text, category: {id, name, description}}.
+  /// The docs list no filters, so it can't be limited by category or level.
+  Future<Either<Failure, dynamic>> randomWord() =>
+      _client.get(ApiEndpoints.randomWord);
 
-  /// [body] is the JSON the docs expect for a suggested word.
-  Future<Either<Failure, dynamic>> addSuggestedWord(
-      Map<String, dynamic> body,
-      ) =>
-      _client.post(ApiEndpoints.addSuggestedWord, data: body);
+  /// Both fields are required, otherwise the server answers 400.
+  Future<Either<Failure, dynamic>> addSuggestedWord({
+    required String text,
+    required int categoryId,
+  }) =>
+      _client.post(
+        ApiEndpoints.addSuggestedWord,
+        data: {'text': text, 'category': categoryId},
+      );
 }

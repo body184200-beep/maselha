@@ -28,13 +28,19 @@ class GameTopBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _Pill(children: [
-          _label(teamName, 14),
-          const SizedBox(width: 6),
-          const Icon(Icons.arrow_forward_rounded,
-              color: AppColors.white, size: 16),
-        ]),
-        GameEndButton(onTap: onEnd),
+        // Flexible: a long team name shrinks (with "...") instead of overflowing.
+        Flexible(
+          child: _Pill(children: [
+            Flexible(child: _label(teamName, 14)),
+            const SizedBox(width: 6),
+            const Icon(Icons.arrow_forward_rounded,
+                color: AppColors.white, size: 16),
+          ]),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: GameEndButton(onTap: onEnd),
+        ),
         _Pill(children: [
           const Icon(Icons.timer_outlined, color: AppColors.white, size: 18),
           const SizedBox(width: 6),
@@ -46,6 +52,8 @@ class GameTopBar extends StatelessWidget {
 
   Widget _label(String text, double size) => Text(
     text,
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
     style: GoogleFonts.cairo(
       fontSize: size,
       fontWeight: FontWeight.bold,

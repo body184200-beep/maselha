@@ -27,11 +27,14 @@ class EndGameScores extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(children: [
-            CircleAvatar(radius: 6, backgroundColor: t.color),
-            const SizedBox(width: 8),
-            _text(t.name, AppColors.white),
-          ]),
+          Flexible(
+            child: Row(children: [
+              CircleAvatar(radius: 6, backgroundColor: t.color),
+              const SizedBox(width: 8),
+              Flexible(child: _text(t.name, AppColors.white)),
+            ]),
+          ),
+          const SizedBox(width: 8),
           _text('${t.score} نقطة', AppColors.primary),
         ],
       ),
@@ -40,6 +43,8 @@ class EndGameScores extends StatelessWidget {
 
   Widget _text(String text, Color color) => Text(
     text,
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
     style: GoogleFonts.cairo(
       color: color,
       fontWeight: FontWeight.bold,
