@@ -7,9 +7,16 @@ import 'game_correct_badges.dart';
 
 // Screen 8: after a correct guess
 class GameCorrectView extends StatelessWidget {
+  final int points;
+  final String nextLabel;
   final VoidCallback onNext;
 
-  const GameCorrectView({super.key, required this.onNext});
+  const GameCorrectView({
+    super.key,
+    required this.points,
+    required this.nextLabel,
+    required this.onNext,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +36,9 @@ class GameCorrectView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const PointsBadge(),
+          PointsBadge(points: points),
           const Spacer(flex: 2),
-          AppButton(text: 'الكلمة التالية', onPressed: onNext),
+          AppButton(text: nextLabel, onPressed: onNext),
           const SizedBox(height: 24),
         ],
       ),

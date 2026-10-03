@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 
-import '../../../game_setup/data/models/team_model.dart';
 import '../screens/category_selection_screen.dart';
 import '../screens/ready_screen.dart';
 import '../screens/result_screen.dart';
+import '../screens/tie_break_screen.dart';
 import 'game_config.dart';
-
-bool isFinalTurn(List<TeamModel> teams, int teamIndex, int round, int total) =>
-    teamIndex == teams.length - 1 && round >= total;
+import 'game_turn.dart';
+import 'tie_break.dart';
 
 void goToResult(BuildContext context, GameConfig config) {
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (_) => ResultScreen(config: config)),
+  );
+}
+
+/// All rounds are over (or a tie-break just ended): a tie goes to the
+/// tie-break, anything else to the final result.
+void goAfterRounds(BuildContext context, GameConfig config) {
+  if (tiedLeaders(config.teams).isEmpty) {
+    goToResult(context, config);
+    return;
+  }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) => TieBreakScreen(config: config)),
   );
 }
 
@@ -48,35 +60,25 @@ void goToChangeSettings(BuildContext context, GameConfig config) {
   );
 }
 
-/// After time is up: next team/round -> ReadyScreen, or final -> ResultScreen.
-void goToNextTurn(
-    BuildContext context,
-    GameConfig config, {
-      required int teamIndex,
-      required int round,
-    }) {
-  final teams = config.teams;
-  if (isFinalTurn(teams, teamIndex, round, config.totalRounds)) {
-    goToResult(context, config);
+/// After a turn ends: the next player's ready screen, or, when the last
+/// round is over, the tie-break / final result.
+void goToNextTurn(BuildContext context, GameConfig config, GameTurn current) {
+  final next = nextTurn(config.teams, current, config.totalRounds);
+  if (next == null) {
+    goAfterRounds(context, config);
     return;
   }
-  final isLastTeam = teamIndex == teams.length - 1;
-  final nextTeamIndex = isLastTeam ? 0 : teamIndex + 1;
-  final nextRound = isLastTeam ? round + 1 : round;
-
-  // Pick random actor for the next team (max 2 times per player)
-  teams[nextTeamIndex].pickRandomActor();
-
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(
       builder: (_) => ReadyScreen(
-        teams: teams,
+        teams: config.teams,
         selectedCategories: config.categories,
         difficulty: config.difficulty,
         dataSource: config.dataSource,
-        currentTeamIndex: nextTeamIndex,
-        currentRound: nextRound,
+        currentTeamIndex: next.teamIndex,
+        currentPlayerIndex: next.playerIndex,
+        currentRound: next.round,
         totalRounds: config.totalRounds,
       ),
     ),

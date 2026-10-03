@@ -41,7 +41,9 @@ class CheckBadge extends StatelessWidget {
 }
 
 class PointsBadge extends StatelessWidget {
-  const PointsBadge();
+  final int points;
+
+  const PointsBadge({super.key, required this.points});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class PointsBadge extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            '10 نقاط',
+            '$points نقاط',
             style: GoogleFonts.cairo(
               fontSize: 18,
               fontWeight: FontWeight.bold,

@@ -4,17 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/theme/appColors.dart';
 import '../../../../game_setup/data/models/team_model.dart';
 
-/// Shows the acting player and how many times they acted (max 2).
+/// Shows the acting player and a small chip (the round, or the tie-break).
 class ReadyActorBadge extends StatelessWidget {
   final TeamModel team;
   final String actor;
-  final int actingCount;
+  final String badge;
 
   const ReadyActorBadge({
     super.key,
     required this.team,
     required this.actor,
-    required this.actingCount,
+    required this.badge,
   });
 
   @override
@@ -47,17 +47,17 @@ class ReadyActorBadge extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          _CountChip(text: '$actingCount / 2'),
+          _Chip(text: badge),
         ],
       ),
     );
   }
 }
 
-class _CountChip extends StatelessWidget {
+class _Chip extends StatelessWidget {
   final String text;
 
-  const _CountChip({required this.text});
+  const _Chip({required this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,8 @@ import 'game_playing_view.dart';
 import 'game_time_up_view.dart';
 
 /// Picks the view that matches the controller's current state.
+/// In a one-word turn (penalty) the turn ends right after the answer, so
+/// "continue" on the correct view leaves through [onTimeUpConfirm].
 class GameStateView extends StatelessWidget {
   final GameController controller;
   final bool isFinal;
@@ -39,6 +41,8 @@ class GameStateView extends StatelessWidget {
   }
 
   Widget _view() {
+    final single = controller.singleWord;
+
     switch (controller.state) {
       case GameScreenState.playing:
         return GamePlayingView(
@@ -47,10 +51,14 @@ class GameStateView extends StatelessWidget {
           remainingSeconds: controller.timer.remaining,
           onEnd: onEnd,
           onCorrect: controller.onCorrect,
-          onSkip: controller.skip,
+          onSkip: single ? null : controller.skip,
         );
       case GameScreenState.correct:
-        return GameCorrectView(onNext: controller.nextAfterCorrect);
+        return GameCorrectView(
+          points: controller.pointsPerWord,
+          nextLabel: single ? 'متابعة' : 'الكلمة التالية',
+          onNext: single ? onTimeUpConfirm : controller.nextAfterCorrect,
+        );
       case GameScreenState.timeUp:
         return GameTimeUpView(isFinal: isFinal, onConfirm: onTimeUpConfirm);
     }

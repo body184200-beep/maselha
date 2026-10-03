@@ -3,10 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/appColors.dart';
 
-/// "صح" (green) and "التالي" (blue).
+/// "صح" (green) and "التالي" (blue). When [onSkip] is null (penalty: one
+/// word only) just the "صح" button is shown.
 class GameActionButtons extends StatelessWidget {
   final VoidCallback onCorrect;
-  final VoidCallback onSkip;
+  final VoidCallback? onSkip;
 
   const GameActionButtons({
     super.key,
@@ -16,6 +17,8 @@ class GameActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final skip = onSkip;
+
     return Row(
       children: [
         Expanded(
@@ -25,22 +28,24 @@ class GameActionButtons extends StatelessWidget {
             child: _label('صح', 22),
           ),
         ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _ActionButton(
-            color: AppColors.secondary,
-            onPressed: onSkip,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _label('التالي', 20),
-                const SizedBox(width: 6),
-                const Icon(Icons.arrow_forward_rounded,
-                    color: Colors.white, size: 20),
-              ],
+        if (skip != null) ...[
+          const SizedBox(width: 16),
+          Expanded(
+            child: _ActionButton(
+              color: AppColors.secondary,
+              onPressed: skip,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _label('التالي', 20),
+                  const SizedBox(width: 6),
+                  const Icon(Icons.arrow_forward_rounded,
+                      color: Colors.white, size: 20),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ],
     );
   }

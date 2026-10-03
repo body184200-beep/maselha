@@ -14,7 +14,7 @@ class GamePlayingView extends StatelessWidget {
   final int remainingSeconds;
   final VoidCallback onEnd;
   final VoidCallback onCorrect;
-  final VoidCallback onSkip;
+  final VoidCallback? onSkip; // null: skipping is not allowed (penalty)
 
   const GamePlayingView({
     super.key,

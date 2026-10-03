@@ -30,12 +30,14 @@ class Home extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 32),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 400,),
                     AppButton(
                       text: 'ابدأ اللعبة',
                       onPressed: () => _open(context, const TeamcountScreen()),
                     ),
+                    SizedBox(height: 25),
                     TextButton(
                       onPressed: () =>
                           _open(context, const SuggestWordScreen()),

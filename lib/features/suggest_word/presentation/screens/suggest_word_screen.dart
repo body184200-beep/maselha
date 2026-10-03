@@ -40,7 +40,7 @@ class _SuggestWordScreenState extends State<SuggestWordScreen> {
     if (!mounted) return;
     setState(() {
       _loading = false;
-      result.fold((f) => _loadError = f.message, (list) => _categories = list);
+      result.fold((f) => _loadError = f.displayMessage, (list) => _categories = list);
     });
   }
 
@@ -54,7 +54,7 @@ class _SuggestWordScreenState extends State<SuggestWordScreen> {
     final result = await _repository.submit(text: text, categoryId: categoryId);
     if (!mounted) return;
     setState(() => _sending = false);
-    result.fold((f) => _toast(f.message), (_) {
+    result.fold((f) => _toast(f.displayMessage), (_) {
       _textController.clear();
       _toast('شكراً! وصل اقتراحك');
     });

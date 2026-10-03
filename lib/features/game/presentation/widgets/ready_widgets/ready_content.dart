@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/theme/appColors.dart';
 import '../../../../../core/widgets/appButton.dart';
-
 import '../../../../game_setup/data/models/team_model.dart';
 import 'ready_actor_badge.dart';
 import 'ready_illustration.dart';
@@ -12,14 +11,14 @@ import 'ready_team_pill.dart';
 class ReadyContent extends StatelessWidget {
   final TeamModel team;
   final String actor;
-  final int actingCount;
+  final String badge;
   final VoidCallback onStart;
 
   const ReadyContent({
     super.key,
     required this.team,
     required this.actor,
-    required this.actingCount,
+    required this.badge,
     required this.onStart,
   });
 
@@ -46,7 +45,7 @@ class ReadyContent extends StatelessWidget {
       children: [
         ReadyTeamPill(team: team),
         const SizedBox(height: 10),
-        ReadyActorBadge(team: team, actor: actor, actingCount: actingCount),
+        ReadyActorBadge(team: team, actor: actor, badge: badge),
         const Spacer(flex: 1),
         Text(
           'جاهز؟',
